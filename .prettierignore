@@ -1,0 +1,12 @@
+.prettierignore
+.gitignore
+.dockerignore                                                           
+.husky/*
+package-lock.json
+**/package-lock.json
+.cache/**
+Dockerfile*
+**/Dockerfile*
+.migrate
+
+/apps/emails/data/templates/files/*.md

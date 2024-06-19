@@ -1,0 +1,309 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "French Museum Finder API",
+        "version": "1.0.0",
+        "description": "The Museum Finder API allows users to search for museums in France based on various categories and geographical locations. This API provides detailed information about museums, including their names, addresses, opening hours, and categories (e.g., art, history, science).",
+        "contact": {
+            "name": "Nicolas Bruneau",
+            "email": "nb.bruneau@gmal.com"
+        }
+    },
+    "servers": [{ "url": "http://localhost:3000/" }],
+    "paths": {
+        "/museums": {
+            "get": {
+                "summary": "Search museums through museums database",
+                "description": "This route allows you to retrieve a paginated list of museums filtered by a name, a location or a category.",
+                "tags": ["Museums"],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "q",
+                        "schema": { "type": "string" },
+                        "required": false,
+                        "description": "Text to search into museum name"
+                    },
+                    {
+                        "in": "query",
+                        "name": "category",
+                        "schema": { "type": "string" },
+                        "required": false,
+                        "description": "Filter by category id"
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "schema": { "type": "string" },
+                        "required": false,
+                        "description": "Page to retrieve"
+                    },
+                    {
+                        "in": "query",
+                        "name": "location",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "lat": { "type": "number", "description": "Latitude of the location" },
+                                "lon": { "type": "number", "description": "Longitude of the location" }
+                            }
+                        },
+                        "required": false,
+                        "description": "Use this parameter to sort results by distance around location"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A json object containing an array of museum.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "history": {
+                                                "type": "string"
+                                            },
+                                            "is_remarkable_for": {
+                                                "type": "string"
+                                            },
+                                            "interest": {
+                                                "type": "string"
+                                            },
+                                            "address": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "line1": { "type": "string" },
+                                                    "line2": { "type": "string" },
+                                                    "postal_code": { "type": "string" },
+                                                    "city": { "type": "string" },
+                                                    "state": { "type": "string" },
+                                                    "country": { "type": "string" }
+                                                }
+                                            },
+                                            "phoneNumber": {
+                                                "type": "string"
+                                            },
+                                            "website": {
+                                                "type": "string"
+                                            },
+                                            "coordinates": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "lat": { "type": "number" },
+                                                    "lon": { "type": "number" }
+                                                }
+                                            },
+                                            "categories": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": { "type": "integer" },
+                                                    "name": { "type": "string" }
+                                                }
+                                            },
+                                            "distance": {
+                                                "type": "float"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error 500 means something is wrong with the request. <ul><li>'missing_parameters' means that at least, one field is missing in body request.</li> <li>'bad_luck' means the server threw an error</li> </ul>\n",
+                        "content": {
+                            "application/text": { "schema": { "type": "string" } }
+                        }
+                    }
+                }
+            }
+        },
+        "/museums/{museumId}": {
+            "get": {
+                "summary": "Get museum information",
+                "description": "This route allows you to retrieve information about a museum.",
+                "tags": ["Museums"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "museumId",
+                        "schema": { "type": "string" },
+                        "required": true,
+                        "description": "ID of the museum to get"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A json object containing details of a museum.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "history": {
+                                            "type": "string"
+                                        },
+                                        "is_remarkable_for": {
+                                            "type": "string"
+                                        },
+                                        "interest": {
+                                            "type": "string"
+                                        },
+                                        "address": {
+                                            "type": "object",
+                                            "properties": {
+                                                "line1": { "type": "string" },
+                                                "line2": { "type": "string" },
+                                                "postal_code": { "type": "string" },
+                                                "city": { "type": "string" },
+                                                "state": { "type": "string" },
+                                                "country": { "type": "string" }
+                                            }
+                                        },
+                                        "phoneNumber": {
+                                            "type": "string"
+                                        },
+                                        "website": {
+                                            "type": "string"
+                                        },
+                                        "coordinates": {
+                                            "type": "object",
+                                            "properties": {
+                                                "lat": { "type": "number" },
+                                                "lon": { "type": "number" }
+                                            }
+                                        },
+                                        "categories": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": { "type": "integer" },
+                                                "name": { "type": "string" }
+                                            }
+                                        },
+                                        "distance": {
+                                            "type": "float"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error 500 means something is wrong with the request. <ul><li>'missing_parameters' means that at least, one field is missing in body request.</li> <li>'bad_luck' means the server threw an error</li> </ul>\n",
+                        "content": {
+                            "application/text": { "schema": { "type": "string" } }
+                        }
+                    }
+                }
+            }
+        },
+        "/categories": {
+            "get": {
+                "summary": "Search categories through museums database",
+                "description": "This route allows you to retrieve a list of categories filtered by name.",
+                "tags": ["Categories"],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "q",
+                        "schema": { "type": "string" },
+                        "required": false,
+                        "description": "Text to search into category name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A json object containing an array of categories.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": { "type": "integer" },
+                                            "name": { "type": "string" }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error 500 means something is wrong with the request. <ul><li>'missing_parameters' means that at least, one field is missing in body request.</li> <li>'bad_luck' means the server threw an error</li> </ul>\n",
+                        "content": {
+                            "application/text": { "schema": { "type": "string" } }
+                        }
+                    }
+                }
+            }
+        },
+        "/categories/{categoryId}": {
+            "get": {
+                "summary": "Get category information",
+                "description": "This route allows you to retrieve information about a category.",
+                "tags": ["Categories"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "categoryId",
+                        "schema": { "type": "string" },
+                        "required": true,
+                        "description": "ID of the category to get"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A json object containing the details about a category.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": { "type": "integer" },
+                                        "name": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error 500 means something is wrong with the request. <ul><li>'missing_parameters' means that at least, one field is missing in body request.</li> <li>'bad_luck' means the server threw an error</li> </ul>\n",
+                        "content": {
+                            "application/text": { "schema": { "type": "string" } }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ResponseError": {
+            "properties": {
+                "type": { "type": "string", "description": "type of the error" },
+                "message": {
+                    "type": "string",
+                    "description": "a string giving more information about the error"
+                }
+            }
+        }
+    },
+    "tags": [
+        { "name": "Museums", "description": "Routes relative to museums" },
+        { "name": "Categories", "description": "Routes relative to categories" }
+    ]
+}
